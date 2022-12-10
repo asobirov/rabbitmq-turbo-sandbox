@@ -5,13 +5,11 @@ import { env } from './env';
 
 const app = express();
 
-const amqpUrl = 'amqp://localhost:5672';
-
 const objToBuffer = <T extends object>(obj: T) => Buffer.from(JSON.stringify(obj));
 
 app.get('/', async (req, res) => {
     try {
-        const connection = await amqp.connect(amqpUrl);
+        const connection = await amqp.connect(env.AMQP_URL);
         const channel = await connection.createChannel();
 
         // Checks if the queue exists, if not, it creates it
